@@ -80,8 +80,8 @@ public class paraleloQueens extends Thread {
                 }
                 else
                 {
-                    try { putboard();} catch (IOException ex)
-                            { System.err.println("Problema ao abrir arquivo");}
+                    //try { putboard();} catch (IOException ex)
+                            //{ System.err.println("Problema ao abrir arquivo");}
                 }
             }
             else
@@ -95,7 +95,7 @@ public class paraleloQueens extends Thread {
 
   public static void main(String[] args) throws IOException {
        int rainhas = Integer.parseInt(args[0]);
-      int processadores=1/*Runtime.getRuntime().availableProcessors()*/,tarefas=0,inferior=0,superior=0;
+      int processadores=Runtime.getRuntime().availableProcessors(),tarefas=0,inferior=0,superior=0;
       System.out.println("processadores disponiveis: "+processadores);
       System.out.println("rainhas: "+rainhas);
 
