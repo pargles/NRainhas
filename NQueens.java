@@ -19,8 +19,8 @@ public class NQueens
 
     public NQueens()throws IOException
     {
-        this.rainhas= 13;//Integer.parseInt(args[0]);
-        processadores=8/*Runtime.getRuntime().availableProcessors()*/;
+        this.rainhas= 11;//Integer.parseInt(args[0]);
+        processadores=2/*Runtime.getRuntime().availableProcessors()*/;
         System.out.println("processadores disponiveis: "+processadores);
         System.out.println("rainhas: "+rainhas);
         escalonador= new int[processadores];
