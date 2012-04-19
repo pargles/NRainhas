@@ -1,22 +1,26 @@
+package rainhas;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 
 public class paraleloQueens extends Thread {
-    private FileWriter arquivo;
     private int rainhas;
-  private int[] vetorPosicoes;
-  private  int s = 0;
-  int limiteSuperior;
-  int limiteInferior;
-  public paraleloQueens(int i, int j, int rainhas) throws IOException
+    private static  FileWriter arquivo;
+    private int[] vetorPosicoes;
+    private  static int s = 0;
+    int limiteSuperior;
+    int limiteInferior;
+
+    public paraleloQueens(int i, int j, int rainhas) throws IOException
     {
       limiteInferior = i;
       limiteSuperior = j;
       this.rainhas= rainhas;
       vetorPosicoes= new int[this.rainhas];
-      arquivo = new FileWriter("out.txt",true);//true é para nao sobrescrever quando vai escrever algo
-  }
+      
+    }
 
 
 
@@ -34,32 +38,24 @@ public class paraleloQueens extends Thread {
     return false;
   }
 
-  public synchronized void putboard() throws IOException {
-    System.out.println("\n\nSolution " + (++s));
-    System.out.print("Vetor: ");
-    
-    for(int i=0;i<vetorPosicoes.length;i++)
-    {
-        System.out.print(vetorPosicoes[i]+" ");
-        arquivo.write(vetorPosicoes[i]+"");
-    }
-    System.out.println();
-    
-    arquivo.write("\n");
-    arquivo.close();
+  public synchronized void putboard(String solution) throws IOException {
 
-    /*
-    for (int y = 0; y < n; y++) {
-      for (int x = 0; x < n; x++) {
-        System.out.print((b[y] == x) ? "|Q" : "|_");
-      }
-      System.out.println("|");
-    }*/
+       arquivo = new FileWriter("out.txt",true);//true é para nao sobrescrever quando vai escrever algo
+       synchronized(arquivo)
+       {
+          
+           System.out.println("\n\nSolution " + (++s));
+           System.out.print("Vetor: "+solution);
+           arquivo.write(solution+"\n");
+           System.out.println();
+           arquivo.close();
+       }   
   }
 
     @Override
   public void run()
     {
+        String solution;
         long tempoInicio= System.currentTimeMillis();
         int posicaoAtual = 0;
         vetorPosicoes[0] = limiteInferior-1;
@@ -80,8 +76,9 @@ public class paraleloQueens extends Thread {
                 }
                 else
                 {
-                    //try { putboard();} catch (IOException ex)
-                            //{ System.err.println("Problema ao abrir arquivo");}
+                    solution = Arrays.toString(vetorPosicoes).replace("[", "").replace("]","").replaceAll(", ","");
+                    try { putboard(solution);} catch (IOException ex)
+                            { System.err.println("Problema ao abrir arquivo");}
                 }
             }
             else
@@ -94,10 +91,11 @@ public class paraleloQueens extends Thread {
   }
 
   public static void main(String[] args) throws IOException {
-       int rainhas = Integer.parseInt(args[0]);
-      int processadores=Runtime.getRuntime().availableProcessors(),tarefas=0,inferior=0,superior=0;
+       int rainhas = 13;//Integer.parseInt(args[0]);
+      int processadores=2/*Runtime.getRuntime().availableProcessors()*/,tarefas=0,inferior=0,superior=0;
       System.out.println("processadores disponiveis: "+processadores);
       System.out.println("rainhas: "+rainhas);
+      arquivo = new FileWriter("out.txt");//abre aki o arquivo so para limpar o conteudo do anteriormente salvo
 
       if(processadores > rainhas)
       {
