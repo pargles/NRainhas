@@ -1,7 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-
 import javax.swing.*;
 
 
@@ -13,8 +11,6 @@ public class NrainhasUI extends JPanel {
 	
 	private GraphicsPanel rainhasUI;
 	private NrainhasModel rainhasModel;
-	
-	
 	private JPanel controlPanel;
 	private JButton initial;
 	
@@ -78,7 +74,6 @@ public class NrainhasUI extends JPanel {
 				}
 			}
 		}
-
 		public void mousePressed(MouseEvent e) {}
 
 		public void mouseClicked(MouseEvent e) {}
@@ -88,6 +83,7 @@ public class NrainhasUI extends JPanel {
 		public void mouseEntered(MouseEvent e) {}
 
 		public void mouseExited(MouseEvent e) {}
+
 	}
 
 	/*
