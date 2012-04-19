@@ -48,7 +48,7 @@ public class paraleloQueens extends Thread {
 		arquivo = new FileWriter("out.txt",true);// true é para nao
 													// sobrescrever quando vai
 													// escrever algo
-		//synchronized(arquivo){
+		synchronized(this){
 			BufferedWriter bw = new BufferedWriter(arquivo);
 			System.out.println("\n\nSolution " + (++s));
 			System.out.print("Vetor: " + solution);
@@ -56,7 +56,7 @@ public class paraleloQueens extends Thread {
 			System.out.println();
 			bw.newLine();
 			bw.close();
-		//}
+		}
 	}
 
 	@Override
