@@ -24,6 +24,7 @@ public class NrainhasUI extends JPanel {
         JScrollPane scrollLista;//para aparecerem as barras de scroll
         String solSelecionada;
          NQueens programa;
+         JComboBox selectAlg;
 	
 	
 	
@@ -32,7 +33,9 @@ public class NrainhasUI extends JPanel {
         listaSolucoes = new JList(solucoes);
         rainhasModel = new NrainhasModel();
         listaSolucoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//para poder selecionar apenas 1 pro vez
-
+        selectAlg = new JComboBox();
+        selectAlg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Paralelo", "Sequencial","Recursivo"}));
+        selectAlg.addActionListener(new selecionaAlgoritmo());
         initial = new JButton("Iniciar");
         initial.addActionListener(new Initial());
         listaSolucoes.addListSelectionListener(new Selecao());
@@ -44,7 +47,9 @@ public class NrainhasUI extends JPanel {
         panelLista = new JPanel();
         controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
+        controlPanel.add(selectAlg);
         controlPanel.add(initial);
+
         panelLista.add(scrollLista);
 
         rainhasUI = new GraphicsPanel();
@@ -128,6 +133,12 @@ public class NrainhasUI extends JPanel {
             int[] nrainha = {3, 5, 4, 6, 1, 7, 3, 2};
             rainhasModel.reset(nrainha);
             rainhasUI.repaint();
+        }
+    }
+
+    public class selecionaAlgoritmo implements ActionListener {
+        public void actionPerformed(ActionEvent ae) {
+            programa.tipoAlgoritmo= (String) selectAlg.getSelectedItem();
         }
     }
 
