@@ -46,6 +46,7 @@ public class NQueens
                 break;
 
             case Recursivo:
+                QueensRecursivo recursivo = new QueensRecursivo(rainhas);
                 break;
 
         }
