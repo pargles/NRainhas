@@ -15,7 +15,7 @@ public class paraleloQueens extends Thread {
     int limiteSuperior;
     int limiteInferior;
     int rainhas;
-    private String nomeArq;
+    private static String nomeArq;
 
     /* Metodo contrutor da classe recebe a quantidade de rainhas e
      * os limites de cada thread (quantidade de linhas para cada thread)
@@ -35,21 +35,17 @@ public class paraleloQueens extends Thread {
    * @param String solution
    * @return void
    */
-  public synchronized void putboard(String solution) throws IOException 
+  public static synchronized void putboard(String solution) throws IOException
   {
-	  arquivo = new FileWriter("out.txt",true);// true é para nao
-													// sobrescrever quando vai
-													// escrever algo
-		//synchronized(this){
-			BufferedWriter bw = new BufferedWriter(arquivo);
-			System.out.println("\n\nSolution " + (++s));
-			System.out.print("Vetor: " + solution);
-			bw.write(solution);
-			System.out.println();
-			bw.newLine();
-			bw.close();
-		//}
-	
+      arquivo = new FileWriter(nomeArq, true);// true é para nao
+      //sobrescrever quando vai
+      // escrever algo
+      BufferedWriter bw = new BufferedWriter(arquivo);
+      //System.out.println("\n\nSolution " + (++s));
+      //System.out.print("Vetor: " + solution+"\n");
+      bw.write(solution);
+      bw.newLine();
+      bw.close();
   }
 
     /* Metodo responsavel pela execucao, vai colocando as rainhas em cada posicao do tabuleiro
@@ -115,3 +111,4 @@ public class paraleloQueens extends Thread {
   }
 
 }
+
