@@ -44,13 +44,14 @@ public class NrainhasUI extends JPanel {
 
 
         controlPanel = new JPanel();
-        panelLista = new JPanel();
-        controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //panelLista = new JPanel();
+        controlPanel.setLayout(new GridLayout(9,2));
+        //panelLista.setLayout(new FlowLayout());
 
         controlPanel.add(selectAlg);
         controlPanel.add(initial);
-
-        panelLista.add(scrollLista);
+        controlPanel.add(listaSolucoes);
+        //panelLista.add(scrollLista);
 
         rainhasUI = new GraphicsPanel();
 
@@ -58,9 +59,9 @@ public class NrainhasUI extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.add(controlPanel, BorderLayout.WEST);
-
-        this.add(rainhasUI, BorderLayout.CENTER);
-        this.add(panelLista,BorderLayout.EAST);
+        
+        this.add(rainhasUI, BorderLayout.EAST);
+       // this.add(panelLista,BorderLayout.WEST);
 
     }
 
