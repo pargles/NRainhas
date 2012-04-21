@@ -4,6 +4,8 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.ComboBoxUI;
+import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
 
 /*
@@ -18,39 +20,70 @@ public class NrainhasUI extends JPanel {
 	private NrainhasModel rainhasModel;
 	private JPanel controlPanel;
 	private JButton initial;
-        private JList listaSolucoes;
-        private JPanel panelLista;
-        String[] solucoes = {"10243567","10243567","10243567","10243567"};
-        JScrollPane scrollLista;//para aparecerem as barras de scroll
-        String solSelecionada;
-         NQueens programa;
-         JComboBox selectAlg;
+    private JList listaSolucoes;
+    private JPanel panelLista;
+    
+    private RadioButtonBorder selcAlg;
+    String[] solucoes = {"10243567","10243567","10243567","10243567"};
+    JScrollPane scrollLista;//para aparecerem as barras de scroll
+    String solSelecionada;
+    NQueens programa;
+    JComboBox selectAlg;
 	
-	
+    ButtonGroup group;
+    JRadioButton paralelo;
+    JRadioButton sequencial;
+    JRadioButton recursivo;
 	
     public NrainhasUI() throws IOException {
         programa = new NQueens();
         listaSolucoes = new JList(solucoes);
         rainhasModel = new NrainhasModel();
         listaSolucoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//para poder selecionar apenas 1 pro vez
-        selectAlg = new JComboBox();
-        selectAlg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Paralelo", "Sequencial","Recursivo"}));
-        selectAlg.addActionListener(new selecionaAlgoritmo());
+        //selectAlg = new JComboBox();
+        //selectAlg.setModel(new DefaultComboBoxModel(new String[] { , "Sequencial","Recursivo"}));
+        //selectAlg.addActionListener(new selecionaAlgoritmo());
         initial = new JButton("Iniciar");
         initial.addActionListener(new Initial());
         listaSolucoes.addListSelectionListener(new Selecao());
         scrollLista = new JScrollPane( listaSolucoes);
 
 
-
+        
+        paralelo = new JRadioButton("Paralelo");
+        paralelo.setMnemonic(KeyEvent.VK_B);
+        paralelo.setActionCommand("Paralelo");
+        
+        
+        sequencial = new JRadioButton("Sequencial");
+        sequencial.setMnemonic(KeyEvent.VK_B);
+        sequencial.setActionCommand("Sequencial");
+        
+        
+        recursivo = new JRadioButton("Recursivo");
+        recursivo.setMnemonic(KeyEvent.VK_B);
+        recursivo.setActionCommand("Recursivo");
+       
+        group = new ButtonGroup();
+        group.add(paralelo);
+        group.add(recursivo);
+        group.add(sequencial);
+       
+        
         controlPanel = new JPanel();
         //panelLista = new JPanel();
-        controlPanel.setLayout(new GridLayout(9,2));
+        controlPanel.setLayout(new GridLayout(0,3));
         //panelLista.setLayout(new FlowLayout());
 
-        controlPanel.add(selectAlg);
+        
+        
+        //controlPanel.add(selectAlg);
+       
+        controlPanel.add(paralelo);
+        controlPanel.add(recursivo);
+        controlPanel.add(sequencial);
         controlPanel.add(initial);
-        controlPanel.add(listaSolucoes);
+        //controlPanel.add(listaSolucoes);
         //panelLista.add(scrollLista);
 
         rainhasUI = new GraphicsPanel();
@@ -60,7 +93,9 @@ public class NrainhasUI extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(controlPanel, BorderLayout.WEST);
         
-        this.add(rainhasUI, BorderLayout.EAST);
+       
+        
+        //this.add(rainhasUI, BorderLayout.EAST);
        // this.add(panelLista,BorderLayout.WEST);
 
     }
@@ -119,8 +154,16 @@ public class NrainhasUI extends JPanel {
     public class Initial implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             try {
-                
-                programa.executa();
+            	if(paralelo.isSelected()){
+            		programa.executa("Paralelo");
+            	}
+            	if(recursivo.isSelected()){
+            		programa.executa("Recursivo");
+            	}
+            	if(sequencial.isSelected()){
+            		programa.executa("Sequencial");
+            	}
+            	
 
             } catch (Exception ex) {
                 System.err.println("Problema no evento do botao Start");
@@ -142,7 +185,8 @@ public class NrainhasUI extends JPanel {
             programa.tipoAlgoritmo= (String) selectAlg.getSelectedItem();
         }
     }
-
+    
+    
 
 }
 

@@ -31,8 +31,9 @@ public class NQueens
      * @param void
      * @return void
      */
-    public void executa() throws Exception
+    public void executa(String tipoAlgoritmo) throws Exception
     {
+    	System.out.println(tipoAlgoritmo);
         switch(algoritmo.valueOf(tipoAlgoritmo))
         {
             case Sequencial:

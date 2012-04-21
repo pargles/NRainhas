@@ -15,7 +15,7 @@ public class Main
 	{
             //NQueens programa = new NQueens();
             //programa.executa();
-            JFrame window = new JFrame("N-Rainhas IA");
+            JFrame window = new JFrame("N-Rainhas SO");
             window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             window.setContentPane(new NrainhasUI());
             window.pack();
