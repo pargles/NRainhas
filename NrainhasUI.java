@@ -13,14 +13,26 @@ import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
  *      com botões e quadro de jogo
  */
 public class NrainhasUI extends JPanel {
-
-
 	
-	private GraphicsPanel rainhasUI;
+	private JPanel rainhasUI;
 	private NrainhasModel rainhasModel;
+	private JFrame res;
+	
 	private JPanel controlPanel;
-	private JButton initial;
-    private JList listaSolucoes;
+	
+	private JButton iniciar;
+	private JButton resultado;
+	
+	private ButtonGroup group;
+	private JRadioButton paralelo;
+	private JRadioButton sequencial;
+	private JRadioButton recursivo;
+    
+	private JTextField nrainhas;
+    
+	private JLabel status;
+	
+	private JList listaSolucoes;
     private JPanel panelLista;
     
     private RadioButtonBorder selcAlg;
@@ -30,10 +42,8 @@ public class NrainhasUI extends JPanel {
     NQueens programa;
     JComboBox selectAlg;
 	
-    ButtonGroup group;
-    JRadioButton paralelo;
-    JRadioButton sequencial;
-    JRadioButton recursivo;
+    
+    
 	
     public NrainhasUI() throws IOException {
         programa = new NQueens();
@@ -43,12 +53,18 @@ public class NrainhasUI extends JPanel {
         //selectAlg = new JComboBox();
         //selectAlg.setModel(new DefaultComboBoxModel(new String[] { , "Sequencial","Recursivo"}));
         //selectAlg.addActionListener(new selecionaAlgoritmo());
-        initial = new JButton("Iniciar");
-        initial.addActionListener(new Initial());
+        iniciar = new JButton("Iniciar");
+        iniciar.addActionListener(new Initial());
+        
+        resultado = new JButton("Mostrar Resultados");
+        resultado.addActionListener(new Resultado());
+        
         listaSolucoes.addListSelectionListener(new Selecao());
         scrollLista = new JScrollPane( listaSolucoes);
 
-
+        nrainhas = new JTextField();
+        
+        status = new JLabel(" Indique os Campos! ");
         
         paralelo = new JRadioButton("Paralelo");
         paralelo.setMnemonic(KeyEvent.VK_B);
@@ -72,35 +88,42 @@ public class NrainhasUI extends JPanel {
         
         controlPanel = new JPanel();
         //panelLista = new JPanel();
-        controlPanel.setLayout(new GridLayout(0,3));
+        controlPanel.setLayout(new GridLayout(0,1));
         //panelLista.setLayout(new FlowLayout());
 
         
         
         //controlPanel.add(selectAlg);
-       
+        controlPanel.add(new JLabel(" Algoritmo: "));
         controlPanel.add(paralelo);
         controlPanel.add(recursivo);
         controlPanel.add(sequencial);
-        controlPanel.add(initial);
+        controlPanel.add(new JLabel(" Número de Rainhas: "));
+        controlPanel.add(nrainhas);
+        controlPanel.add(iniciar);
+        controlPanel.add(resultado);
+        controlPanel.add(status);
+        
         //controlPanel.add(listaSolucoes);
         //panelLista.add(scrollLista);
-
+        res = new JFrame("Resultados");
         rainhasUI = new GraphicsPanel();
-
         
+        res.setLayout(new BorderLayout());
+        res.add(rainhasUI, BorderLayout.EAST);
+        res.add(listaSolucoes,BorderLayout.WEST);
 
         this.setLayout(new BorderLayout());
-        this.add(controlPanel, BorderLayout.WEST);
+        this.add(controlPanel);
         
        
         
         //this.add(rainhasUI, BorderLayout.EAST);
-       // this.add(panelLista,BorderLayout.WEST);
+        //this.add(panelLista,BorderLayout.WEST);
 
     }
 
-    public class GraphicsPanel extends JPanel implements MouseListener {
+    public class GraphicsPanel extends JPanel {
 
         private static final int ROWS = 8;
         private static final int COLS = 8;
@@ -154,23 +177,41 @@ public class NrainhasUI extends JPanel {
     public class Initial implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             try {
-            	if(paralelo.isSelected()){
+            	if(nrainhas.getText().equals("") || group.getSelection() == null){
+        			status.setText(" Entrada Inválida! ");
+            	}
+        		else if(paralelo.isSelected()){
             		programa.executa("Paralelo");
             	}
-            	if(recursivo.isSelected()){
+            	else if(recursivo.isSelected()){
             		programa.executa("Recursivo");
             	}
-            	if(sequencial.isSelected()){
+            	else if(sequencial.isSelected()){
             		programa.executa("Sequencial");
             	}
-            	
-
             } catch (Exception ex) {
                 System.err.println("Problema no evento do botao Start");
             }
         }
     }
 
+    /*
+	 * Botões de ação do jogo
+	 */
+    public class Resultado implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+        	if(nrainhas.getText().equals("") || group.getSelection() == null){
+    			status.setText(" Entrada Inválida! ");
+        	} else{
+        		rainhasUI.setVisible(true);
+        	}
+        	res.pack();
+        	res.setVisible(true);
+        	int[] nrainha = {3, 5, 4, 6, 1, 7, 3, 2};
+            
+        }
+    }
+    
     class Selecao implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent lse) {
             solSelecionada = (String) listaSolucoes.getSelectedValue();
