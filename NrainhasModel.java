@@ -3,14 +3,13 @@
  * Cria o quadro de jogo
  */
 public class NrainhasModel {
-    private static final int ROWS = 8;
-    private static final int COLS = 8;
+    private int nrainhas = 8;
     
     private Tile[][] contents;  
     
     
     public NrainhasModel() {
-        contents = new Tile[ROWS][COLS];
+        contents = new Tile[nrainhas][nrainhas];
         reset();               
     }
     
@@ -23,8 +22,8 @@ public class NrainhasModel {
      * Desenha o quadro inicial
      */
     public void reset() {
-        for (int r=0; r<ROWS; r++) {
-            for (int c=0; c<COLS; c++) {
+        for (int r=0; r < nrainhas; r++) {
+            for (int c=0; c < nrainhas; c++) {
             	contents[r][c] = new Tile(r, c, "" );
             }
         }
@@ -37,15 +36,14 @@ public class NrainhasModel {
     }
     
     
-    public void result(char[] board) {
-        for (int r=0; r<ROWS; r++) {
-            for (int c=0; c<COLS; c++) {
-            	contents[r][c] = new Tile(r, c, Character.toString(board[r*8 + c]));
-            }
-        }
+    
+    public void setNrainhas(int nrainhas){
+    	this.nrainhas = nrainhas;
     }
     
-    
+    public int getNrainhas(){
+    	return nrainhas;
+    }
 }   
     
     
