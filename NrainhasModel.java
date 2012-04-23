@@ -3,12 +3,13 @@
  * Cria o quadro de jogo
  */
 public class NrainhasModel {
-    private int nrainhas = 8;
+    private int nrainhas;
     
     private Tile[][] contents;  
     
     
-    public NrainhasModel() {
+    public NrainhasModel(int nrainhas) {
+    	this.nrainhas = nrainhas;
         contents = new Tile[nrainhas][nrainhas];
         reset();               
     }

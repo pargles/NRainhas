@@ -46,7 +46,7 @@ public class NrainhasUI extends JPanel {
 	public NrainhasUI() throws IOException {
 		programa = new NQueens();
 		listaSolucoes = new JList(solucoes);
-		rainhasModel = new NrainhasModel();
+		
 		listaSolucoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);// para
 																			// poder
 																			// selecionar
@@ -179,7 +179,8 @@ public class NrainhasUI extends JPanel {
 					return;
 				} else {
 					nrainhas = Integer.parseInt(entradaRainhas.getText());
-					rainhasModel.setNrainhas(nrainhas);
+					rainhasModel = new NrainhasModel(nrainhas);
+					
 //					((GraphicsPanel) rainhasUI).setNrainhas(nrainhas);
 					rainhasUI = new GraphicsPanel(nrainhas);
 
