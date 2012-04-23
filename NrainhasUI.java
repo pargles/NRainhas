@@ -1,11 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
 /*
  * Cria o painel de interface com o usuário
@@ -24,6 +25,7 @@ public final class NrainhasUI extends JPanel {
 	private JRadioButton paralelo,sequencial,recursivo;
 	private JTextField entradaRainhas;
 	private JList listaSolucoes;
+        private DefaultListModel modeloLista;
 	JScrollPane scrollLista;// para aparecerem as barras de scroll
 	private String solSelecionada;
 	private NQueens programa;
@@ -48,18 +50,14 @@ public final class NrainhasUI extends JPanel {
      */
     public void iniciaComponentes()
     {
-        listaSolucoes = new JList(solucoes);
-
-        listaSolucoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);// para
+        modeloLista = new DefaultListModel();
+        listaSolucoes = new JList();
+        
         iniciar = new JButton("Iniciar");
         iniciar.addActionListener(new Initial());
 
         resultado = new JButton("Mostrar Resultados");
         resultado.addActionListener(new Resultado());
-
-        listaSolucoes.addListSelectionListener(new Selecao());
-        scrollLista = new JScrollPane(listaSolucoes);
-
         entradaRainhas = new JTextField();
 
         status = new JLabel(" Indique os Campos! ");
@@ -82,11 +80,9 @@ public final class NrainhasUI extends JPanel {
         group.add(sequencial);
 
         controlPanel = new JPanel();
-        // panelLista = new JPanel();
-        controlPanel.setLayout(new GridLayout(0, 1));
-        // panelLista.setLayout(new FlowLayout());
 
-        // controlPanel.add(selectAlg);
+        controlPanel.setLayout(new GridLayout(0, 1));
+
         controlPanel.add(new JLabel(" Algoritmo: "));
         controlPanel.add(paralelo);
         controlPanel.add(recursivo);
@@ -97,8 +93,6 @@ public final class NrainhasUI extends JPanel {
         controlPanel.add(resultado);
         controlPanel.add(status);
 
-        // controlPanel.add(listaSolucoes);
-        // panelLista.add(scrollLista);
         res = new JFrame("Resultados");
         res.setResizable(false);
 
@@ -165,15 +159,7 @@ public final class NrainhasUI extends JPanel {
                     return;
                 } else {
                     nrainhas = Integer.parseInt(entradaRainhas.getText());
-                    rainhasModel = new NrainhasModel(nrainhas);
-
-//					((GraphicsPanel) rainhasUI).setNrainhas(nrainhas);
-                    rainhasUI = new GraphicsPanel(nrainhas);
-
-                    res.setLayout(new BorderLayout());
-                    res.add(rainhasUI, BorderLayout.EAST);
-                    res.add(listaSolucoes, BorderLayout.WEST);
-                    System.out.println(nrainhas);
+                    programa.setRainhas(nrainhas);
                 }
                 if (paralelo.isSelected()) {
                     programa.executa("Paralelo");
@@ -202,7 +188,13 @@ public final class NrainhasUI extends JPanel {
                 status.setText(" Entrada Inválida! ");
             } else {
             }
-
+            try {
+                printaNoJList();
+            } catch (FileNotFoundException ex) {
+                System.err.println("Voce excluiu o arquivo"+ programa.getNomeArq()+ " com os resultados");
+            } catch (IOException ex) {
+               System.err.println("Voce excluiu o arquivo"+ programa.getNomeArq()+ " com os resultados");
+            }
             res.pack();
             res.setVisible(true);
 
@@ -232,6 +224,31 @@ public final class NrainhasUI extends JPanel {
                 vetor[i] = Integer.parseInt(s.substring(i, i + 1));
             }
         }
+    }
+
+    public void printaNoJList() throws FileNotFoundException, IOException {
+
+        BufferedReader in = new BufferedReader(new FileReader(programa.getNomeArq()));
+        String str;
+        while (in.ready()) {
+            str = in.readLine();
+            modeloLista.addElement(str);
+        }
+        in.close();
+        listaSolucoes = new JList(modeloLista);
+
+        listaSolucoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);// para
+        listaSolucoes.addListSelectionListener(new Selecao());
+        scrollLista = new JScrollPane(listaSolucoes);
+
+        rainhasModel = new NrainhasModel(nrainhas);
+
+        rainhasUI = new GraphicsPanel(nrainhas);
+
+        res.setLayout(new BorderLayout());
+        res.add(rainhasUI, BorderLayout.EAST);
+        res.add(listaSolucoes, BorderLayout.WEST);
+        System.out.println(nrainhas);
     }
 
 

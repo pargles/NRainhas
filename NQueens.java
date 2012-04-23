@@ -125,5 +125,14 @@ public class NQueens
         return nomeArquivo;
     }
 
+    /* Metodo set para setar a quantidade de rainhas a serem calculadas
+     * @param int rainhas
+     * @return void
+     */
+    public void setRainhas(int rainhas)
+    {
+        this.rainhas = rainhas;
+    }
+
 }
 
