@@ -3,6 +3,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
+/*
+*http://introcs.cs.princeton.edu/java/23recursion/Queens.java.html
+*/
 public class QueensRecursivo
 {
     private static FileWriter arquivo;
