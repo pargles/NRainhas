@@ -6,7 +6,7 @@ import java.util.Arrays;
 /**
  *
  * @author abilio and pargles
- * @version 2.1
+ * @version 4.2
  */
 public class paraleloQueens extends Thread {
 	private static  FileWriter arquivo;
@@ -87,7 +87,7 @@ public class paraleloQueens extends Thread {
                 posicaoAtual--;
             }
         }
-        System.out.println("tempo necessario: "+(System.currentTimeMillis()-tempoInicio) / 100000 +" minutos");
+        System.out.println("tempo necessario: "+(System.currentTimeMillis()-tempoInicio) / 1000 +" segundos");
 
   }
 
@@ -111,4 +111,5 @@ public class paraleloQueens extends Thread {
   }
 
 }
+
 

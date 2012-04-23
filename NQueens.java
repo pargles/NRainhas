@@ -10,7 +10,7 @@ public class NQueens
 
     enum algoritmo{Sequencial, Paralelo,Recursivo;}
     private int rainhas;
-    private int processadores/*Runtime.getRuntime().availableProcessors()*/,tarefas=0,inferior=0,superior=0;
+    private int processadores,tarefas=0,inferior=0,superior=0;
     public String tipoAlgoritmo = "Paralelo";//default
     paraleloQueens queen;
     private int escalonador[];
@@ -47,7 +47,7 @@ public class NQueens
                 break;
 
             case Recursivo:
-                QueensRecursivo recursivo = new QueensRecursivo(rainhas);
+                QueensRecursivo recursivo = new QueensRecursivo(rainhas,nomeArquivo);
                 break;
 
         }
@@ -135,4 +135,5 @@ public class NQueens
     }
 
 }
+
 

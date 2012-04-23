@@ -26,14 +26,10 @@ public final class NrainhasUI extends JPanel {
 	private JTextField entradaRainhas;
 	private JList listaSolucoes;
         private DefaultListModel modeloLista;
-	JScrollPane scrollLista;// para aparecerem as barras de scroll
+	private JScrollPane scrollLista;// para aparecerem as barras de scroll
 	private String solSelecionada;
 	private NQueens programa;
-        String[] solucoes = {"02461357","02461357","02461357","02461357","02461357","02461357",
-        "02461357","02461357","02461357","02461357","02461357","02461357","02461357","02461357","02461357",
-        "02461357","02461357","02461357","02461357","02461357","02461357","02461357","02461357","02461357",
-        "02461357","02461357","02461357","02461357","02461357","02461357",};
-
+        private long tempoInicio,tempoTotal;
 
 
 	public NrainhasUI() throws IOException {
@@ -58,6 +54,7 @@ public final class NrainhasUI extends JPanel {
 
         resultado = new JButton("Mostrar Resultados");
         resultado.addActionListener(new Resultado());
+        resultado.setEnabled(false);
         entradaRainhas = new JTextField();
 
         status = new JLabel(" Indique os Campos! ");
@@ -65,6 +62,7 @@ public final class NrainhasUI extends JPanel {
         paralelo = new JRadioButton("Paralelo");
         paralelo.setMnemonic(KeyEvent.VK_B);
         paralelo.setActionCommand("Paralelo");
+        
 
         sequencial = new JRadioButton("Sequencial");
         sequencial.setMnemonic(KeyEvent.VK_B);
@@ -152,6 +150,7 @@ public final class NrainhasUI extends JPanel {
     public class Initial implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
+            iniciar.setEnabled(false);
             try {
                 if (entradaRainhas.getText().equals("")
                         || group.getSelection() == null) {
@@ -161,6 +160,7 @@ public final class NrainhasUI extends JPanel {
                     nrainhas = Integer.parseInt(entradaRainhas.getText());
                     programa.setRainhas(nrainhas);
                 }
+                tempoInicio= System.currentTimeMillis();
                 if (paralelo.isSelected()) {
                     programa.executa("Paralelo");
                 }
@@ -170,6 +170,10 @@ public final class NrainhasUI extends JPanel {
                 if (sequencial.isSelected()) {
                     programa.executa("Sequencial");
                 }
+                tempoTotal = (System.currentTimeMillis()-tempoInicio) / 1000;//em segundos
+                System.out.println("TEMPO TOTAL: "+tempoTotal);
+                iniciar.setEnabled(true);
+                resultado.setEnabled(true);
 
             } catch (Exception ex) {
                 System.err.println("Problema no evento do botao Start");
@@ -203,6 +207,7 @@ public final class NrainhasUI extends JPanel {
 
 	class Selecao implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent lse) {
+                        rainhasModel.reset();
 			solSelecionada = (String) listaSolucoes.getSelectedValue();
                         int vetor[] = new int[solSelecionada.length()];
                         stringToIntegerArray(solSelecionada,vetor);
@@ -236,7 +241,6 @@ public final class NrainhasUI extends JPanel {
         }
         in.close();
         listaSolucoes = new JList(modeloLista);
-
         listaSolucoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);// para
         listaSolucoes.addListSelectionListener(new Selecao());
         scrollLista = new JScrollPane(listaSolucoes);
@@ -247,10 +251,11 @@ public final class NrainhasUI extends JPanel {
 
         res.setLayout(new BorderLayout());
         res.add(rainhasUI, BorderLayout.EAST);
-        res.add(listaSolucoes, BorderLayout.WEST);
+        res.add(scrollLista, BorderLayout.WEST);
         System.out.println(nrainhas);
     }
 
 
 }
+
 

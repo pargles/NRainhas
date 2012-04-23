@@ -9,12 +9,12 @@ import java.util.Arrays;
 public class QueensRecursivo
 {
     private static FileWriter arquivo;
-    private int rainhas;
+    private static String nomeArquivo;
 
-    public QueensRecursivo(int rainhas) throws IOException
+    public QueensRecursivo(int rainhas,String arquivo) throws IOException
     {
-       this.rainhas = rainhas;
-       enumerate(rainhas);
+        nomeArquivo = arquivo;
+        enumerate(rainhas);
     }
 
    /***********************************************************************
@@ -56,7 +56,7 @@ public class QueensRecursivo
    */
   public static void putboard(String solution) throws IOException
   {
-      arquivo = new FileWriter("out.txt", true);// true é para nao
+      arquivo = new FileWriter(nomeArquivo, true);// true é para nao
       BufferedWriter bw = new BufferedWriter(arquivo);
       //System.out.println("\n\nSolution " + (++s));
       //System.out.print("Vetor: " + solution+"\n");
@@ -76,6 +76,7 @@ public class QueensRecursivo
 
     public static void enumerate(int[] q, int n) throws IOException {
         int N = q.length;
+        long tempoInicio= System.currentTimeMillis();
         if (n == N) printQueens(q);
         else {
             for (int i = 0; i < N; i++) {
@@ -83,6 +84,8 @@ public class QueensRecursivo
                 if (isConsistent(q, n)) enumerate(q, n+1);
             }
         }
+        System.out.println("tempo necessario: "+(System.currentTimeMillis()-tempoInicio) / 1000 +" segundos");
     }
 
 }
+
