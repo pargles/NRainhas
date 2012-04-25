@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
 /**
@@ -15,10 +16,14 @@ public class NQueens
     paraleloQueens queen;
     private int escalonador[];
     private String nomeArquivo = "out.txt";
-    FileWriter arquivo = new FileWriter(nomeArquivo);
+    File file;
+    FileWriter arquivo;
 
     public NQueens()throws IOException
     {
+    	file = new File(nomeArquivo);
+    	arquivo = new FileWriter(file);
+    	
         this.rainhas= 8;//Integer.parseInt(args[0]);
         processadores=Runtime.getRuntime().availableProcessors();
         System.out.println("processadores disponiveis: "+processadores);
@@ -34,9 +39,12 @@ public class NQueens
     public void executa(String tipoAlgoritmo) throws Exception
     {
     	System.out.println(tipoAlgoritmo);
+    	file.delete();
+    	file.createNewFile();
         switch(algoritmo.valueOf(tipoAlgoritmo))
         {
             case Sequencial:
+            	
                 queen = new paraleloQueens(0,rainhas,rainhas,nomeArquivo);//apenas instancia uma thread, ou seja, se torna sequencial
                 queen.start();
                 break;

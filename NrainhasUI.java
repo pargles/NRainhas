@@ -15,6 +15,7 @@ import javax.swing.event.ListSelectionListener;
 public final class NrainhasUI extends JPanel {
 
 	private int nrainhas;
+	BufferedReader in;
 
 	private JPanel rainhasUI, controlPanel;
 	private NrainhasModel rainhasModel;
@@ -34,14 +35,12 @@ public final class NrainhasUI extends JPanel {
 	public NrainhasUI() throws IOException {
 		programa = new NQueens();
 		iniciaComponentes();
-
 	}
 
 	/*
-	 * Metodo que cria e insere todos os botoes e ferramentas da interface
+	 * Método que cria e insere todos os botões e ferramentas da interface
 	 * 
-	 * @param void
-	 * 
+	 * @param void 
 	 * @return void
 	 */
 	public void iniciaComponentes() {
@@ -100,23 +99,19 @@ public final class NrainhasUI extends JPanel {
 	public class GraphicsPanel extends JPanel {
 
 		private static final int CELL_SIZE = 40;
-		private Font _biggerFont;
+		private Font biggerFont;
 		private int nrainhas;
 
 		public GraphicsPanel(int nrainhas) {
 			this.nrainhas = nrainhas;
-			_biggerFont = new Font("", Font.PLAIN, CELL_SIZE - 10);
+			biggerFont = new Font("", Font.PLAIN, CELL_SIZE - 10);
 			this.setPreferredSize(new Dimension(CELL_SIZE * nrainhas, CELL_SIZE
 					* nrainhas));
 			this.setBackground(Color.black);
 		}
 
-		// public void setNrainhas(int nrainhas){
-		// this.nrainhas = nrainhas;
-		// }
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			System.err.println(nrainhas);
 			for (int r = 0; r < nrainhas; r++) {
 				for (int c = 0; c < nrainhas; c++) {
 					int x = c * CELL_SIZE;
@@ -134,7 +129,7 @@ public final class NrainhasUI extends JPanel {
 									CELL_SIZE - 3);
 							g.setColor(Color.white);
 						}
-						g.setFont(_biggerFont);
+						g.setFont(biggerFont);
 						g.drawString(text, x + 10, y + 30);
 					}
 				}
@@ -185,7 +180,8 @@ public final class NrainhasUI extends JPanel {
 	 */
 	public class Resultado implements ActionListener {
 
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) { 
+			res = new JFrame("Resultado");
 			if (entradaRainhas.getText().equals("")
 					|| group.getSelection() == null) {
 				status.setText(" Entrada Inválida! ");
@@ -202,6 +198,7 @@ public final class NrainhasUI extends JPanel {
 			}
 			res.pack();
 			res.setVisible(true);
+			res.repaint();
 
 		}
 	}
@@ -218,26 +215,34 @@ public final class NrainhasUI extends JPanel {
 	
 
 	public void printaNoJList() throws FileNotFoundException, IOException {
-		BufferedReader in = new BufferedReader(new FileReader(programa.getNomeArq()));
-		String str;
-		while (in.ready()) {
-			str = in.readLine();
+		
+		FileReader file = new FileReader(programa.getNomeArq());
+		BufferedReader in = new BufferedReader(file);
+		String str = null;
+		modeloLista = new DefaultListModel();
+		
+		while ((str = in.readLine()) != null) {
 			modeloLista.addElement(str);
+			System.err.println("ellll " + str);
 		}
-		in.close();
+		//in.close();
+		//file.close();
+		
+		
 		listaSolucoes = new JList(modeloLista);
+		
 		listaSolucoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);// para
 		listaSolucoes.addListSelectionListener(new Selecao());
+		
 		scrollLista = new JScrollPane(listaSolucoes);
-
+		
 		rainhasModel = new NrainhasModel(nrainhas);
-
 		rainhasUI = new GraphicsPanel(nrainhas);
 
 		res.setLayout(new BorderLayout());
-		res.add(rainhasUI, BorderLayout.EAST);
-		res.add(scrollLista, BorderLayout.WEST);
-		System.out.println(nrainhas);
+		res.add(rainhasUI, BorderLayout.WEST);
+		res.add(scrollLista, BorderLayout.EAST);
+		
 	}
 
 }
