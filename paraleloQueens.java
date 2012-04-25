@@ -77,7 +77,7 @@ public class paraleloQueens extends Thread {
                 }
                 else
                 {
-                    solution = Arrays.toString(vetorPosicoes).replace("[", "").replace("]","").replaceAll(", ","");
+                    solution = Arrays.toString(vetorPosicoes).replace("[", "").replace("]","").replaceAll(", "," ");
                     try { putboard(solution);} catch (IOException ex)
                             { System.err.println("Problema ao abrir arquivo");}
                 }

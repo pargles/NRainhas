@@ -36,7 +36,13 @@ public class NrainhasModel {
         }
     }
     
-    
+    public void reset(String cells) {
+    	int begin = 0, end = 0;
+    	String [] tokens = cells.split(" ");
+        for (int r = 0; r < nrainhas; r++) {
+            contents[r][Integer.parseInt(tokens[r])] = new Tile(r, Integer.parseInt(tokens[r]), "\u2655" );
+        }
+    }
     
     public void setNrainhas(int nrainhas){
     	this.nrainhas = nrainhas;
