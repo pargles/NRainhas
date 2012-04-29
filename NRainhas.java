@@ -6,20 +6,20 @@ import java.io.FileWriter;
  * @author abilio and pargles
  * @version 1.0
  */
-public class NQueens
+public class NRainhas
 {
 
     enum algoritmo{Sequencial, Paralelo,Recursivo;}
     private int rainhas;
     private int processadores,tarefas=0,inferior=0,superior=0;
     public String tipoAlgoritmo = "Paralelo";//default
-    paraleloQueens queen;
+    paraleloNRainhas queen;
     private int escalonador[];
     private String nomeArquivo = "out.txt";
     File file;
     FileWriter arquivo;
 
-    public NQueens()throws IOException
+    public NRainhas()throws IOException
     {
     	file = new File(nomeArquivo);
     	arquivo = new FileWriter(file);
@@ -27,7 +27,7 @@ public class NQueens
         this.rainhas= 8;//Integer.parseInt(args[0]);
         processadores=Runtime.getRuntime().availableProcessors();
         System.out.println("processadores disponiveis: "+processadores);
-        System.out.println("rainhas: "+rainhas);
+        //System.out.println("rainhas: "+rainhas);
         escalonador= new int[processadores];
     }
 
@@ -38,20 +38,20 @@ public class NQueens
      */
     public void executa(String tipoAlgoritmo) throws Exception
     {
-    	System.out.println(tipoAlgoritmo);
+    	//System.out.println(tipoAlgoritmo);
     	file.delete();
     	file.createNewFile();
         switch(algoritmo.valueOf(tipoAlgoritmo))
         {
             case Sequencial:
             	
-                queen = new paraleloQueens(0,rainhas,rainhas,nomeArquivo);//apenas instancia uma thread, ou seja, se torna sequencial
+                queen = new paraleloNRainhas(0,rainhas,rainhas,nomeArquivo);//apenas instancia uma thread, ou seja, se torna sequencial
                 queen.start();
                 break;
             case Paralelo:
                 escalonarTarefas();//divide a quantidade de rainhas entre as threads
-                printaEscalonamento();
-                iniciarTarefas();//cria N (quantidade de processadores dinsponiveis) threads e manda executa
+                //printaEscalonamento();
+                iniciarTarefas();//cria N (quantidade de processadores dinsponiveis) threads e manda executar
                 break;
 
             case Recursivo:
@@ -59,6 +59,7 @@ public class NQueens
                 break;
 
         }
+        arquivo.close();
     }
 
     /* Metodo responsavel por gerar um vetor contendo o numero
@@ -100,11 +101,10 @@ public class NQueens
      */
     private void iniciarTarefas() throws IOException
     {
-         paraleloQueens rainha;
         for(int i = 0 ; i< processadores;i++)
         {
             superior += escalonador[i];
-            queen = new paraleloQueens(inferior,superior,rainhas,nomeArquivo);
+            queen = new paraleloNRainhas(inferior,superior,rainhas,nomeArquivo);
             queen.start();
             inferior= superior;
         }

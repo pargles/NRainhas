@@ -3,8 +3,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
-/*
-*http://introcs.cs.princeton.edu/java/23recursion/Queens.java.html
+/* Algoritmo recursivo obtido em:
+*@reference http://introcs.cs.princeton.edu/java/23recursion/Queens.java.html
+ * do livro "Introduction to Programming in Java: An Interdisciplinary Approach"
+ * para efeitos de comparacao
 */
 public class QueensRecursivo
 {
@@ -35,7 +37,7 @@ public class QueensRecursivo
     ***********************************************************************/
     public static void printQueens(int[] q) throws IOException {
         String solution;
-        solution = Arrays.toString(q).replace("[", "").replace("]","").replaceAll(", ","");
+        solution = Arrays.toString(q).replace("[", "").replace("]","").replaceAll(", "," ");
         putboard(solution);
         /*
         int N = q.length;
@@ -71,12 +73,14 @@ public class QueensRecursivo
     ***********************************************************************/
     public static void enumerate(int N) throws IOException {
         int[] a = new int[N];
+        long tempoInicio= System.currentTimeMillis();
         enumerate(a, 0);
+        System.out.println("tempo necessario: "+(System.currentTimeMillis()-tempoInicio) / 1000 +" segundos");
     }
 
     public static void enumerate(int[] q, int n) throws IOException {
         int N = q.length;
-        long tempoInicio= System.currentTimeMillis();
+        
         if (n == N) printQueens(q);
         else {
             for (int i = 0; i < N; i++) {
@@ -84,7 +88,7 @@ public class QueensRecursivo
                 if (isConsistent(q, n)) enumerate(q, n+1);
             }
         }
-        System.out.println("tempo necessario: "+(System.currentTimeMillis()-tempoInicio) / 1000 +" segundos");
+        
     }
 
 }

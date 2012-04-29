@@ -12,7 +12,7 @@ public class Main
         //programa.executa();
         JFrame window = new JFrame("N-Rainhas SO");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setContentPane(new NrainhasUI());
+        window.setContentPane(new NRainhasInterface());
         window.pack();
         window.show();
         window.setResizable(false);

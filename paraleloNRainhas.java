@@ -8,7 +8,7 @@ import java.util.Arrays;
  * @author abilio and pargles
  * @version 4.2
  */
-public class paraleloQueens extends Thread {
+public class paraleloNRainhas extends Thread {
 	private static  FileWriter arquivo;
     private int[] vetorPosicoes;
     private  static int s = 0;
@@ -22,7 +22,7 @@ public class paraleloQueens extends Thread {
      * @param int i, int j , int rainhas
      * @return void
      */
-    public paraleloQueens(int limInferior, int limSuperior, int rainhas,String arquivo) throws IOException
+    public paraleloNRainhas(int limInferior, int limSuperior, int rainhas,String arquivo) throws IOException
     {
       limiteInferior = limInferior;
       limiteSuperior = limSuperior;
@@ -66,7 +66,7 @@ public class paraleloQueens extends Thread {
             {
                 vetorPosicoes[posicaoAtual]++;
 
-            } while ((vetorPosicoes[posicaoAtual] < rainhas) && unsafe(posicaoAtual)); // ese laco pesquisa onde colocar a proxima peca sem que haja conflito
+            } while ((vetorPosicoes[posicaoAtual] < rainhas) && existeConflito(posicaoAtual)); // ese laco pesquisa onde colocar a proxima peca sem que haja conflito
 
 
             if (vetorPosicoes[posicaoAtual] < rainhas)
@@ -95,7 +95,7 @@ public class paraleloQueens extends Thread {
     * @param int coluna Atual
     * @return boolean
     */
-  boolean unsafe(int colunaAtual)
+  boolean existeConflito(int colunaAtual)
   {
     int x = vetorPosicoes[colunaAtual];// y é a coluna que eu estou no momento
     for (int i = 1; i <= colunaAtual; i++) // i = 1 pois y-i sempre pega o elemento anterior da coluna
