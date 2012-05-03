@@ -8,9 +8,8 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-/*
- * Cria o painel de interface com o usuário
- *      com botões e quadro de jogo
+/**
+ * Cria a interface com o usuário com botões e quadro de jogo
  */
 public final class NRainhasInterface extends JPanel {
 
@@ -27,7 +26,7 @@ public final class NRainhasInterface extends JPanel {
 	private JTextField entradaRainhas;
 	private JList listaSolucoes;
 	private DefaultListModel modeloLista;
-	private JScrollPane scrollLista;// para aparecerem as barras de scroll
+	private JScrollPane scrollLista;
 	private String solSelecionada;
 	private NRainhas programa;
 	private long tempoInicio, tempoTotal;
@@ -37,10 +36,10 @@ public final class NRainhasInterface extends JPanel {
 		iniciaComponentes();
 	}
 
-	/*
-	 * Método que cria e insere todos os botões e ferramentas da interface
+	/**
+	 * Cria e insere todos os botões e ferramentas da interface
 	 * 
-	 * @param void 
+	 * @param void
 	 * @return void
 	 */
 	public void iniciaComponentes() {
@@ -96,162 +95,151 @@ public final class NRainhasInterface extends JPanel {
 
 	}
 
-    public class GraphicsPanel extends JPanel {
+	public class GraphicsPanel extends JPanel {
 
-        private static final int CELL_SIZE = 40;
-        private Font biggerFont;
-        private int nrainhas;
+		private static final int CELL_SIZE = 40;
+		private Font biggerFont;
+		private int nrainhas;
 
-        public GraphicsPanel(int nrainhas) {
-            this.nrainhas = nrainhas;
-            biggerFont = new Font("", Font.PLAIN, CELL_SIZE - 10);
-            this.setPreferredSize(new Dimension(CELL_SIZE * nrainhas, CELL_SIZE
-                    * nrainhas));
-            this.setBackground(Color.black);
-        }
+		public GraphicsPanel(int nrainhas) {
+			this.nrainhas = nrainhas;
+			biggerFont = new Font("", Font.PLAIN, CELL_SIZE - 10);
+			this.setPreferredSize(new Dimension(CELL_SIZE * nrainhas, CELL_SIZE
+					* nrainhas));
+			this.setBackground(Color.black);
+		}
 
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            for (int r = 0; r < nrainhas; r++) {
-                for (int c = 0; c < nrainhas; c++) {
-                    int x = c * CELL_SIZE;
-                    int y = r * CELL_SIZE;
-                    String text = rainhasModel.getFace(r, c);
-                    if (text != null) {
-                        if ((r + c) % 2 == 0) {
-                            g.setColor(Color.white);
-                            g.fillRect(x + 1, y + 1, CELL_SIZE - 3,
-                                    CELL_SIZE - 3);
-                            g.setColor(Color.black);
-                        } else {
-                            g.setColor(Color.black);
-                            g.fillRect(x + 1, y + 1, CELL_SIZE - 3,
-                                    CELL_SIZE - 3);
-                            g.setColor(Color.white);
-                        }
-                        g.setFont(biggerFont);
-                        g.drawString(text, x + 10, y + 30);
-                    }
-                }
-            }
-        }
-    }
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			for (int r = 0; r < nrainhas; r++) {
+				for (int c = 0; c < nrainhas; c++) {
+					int x = c * CELL_SIZE;
+					int y = r * CELL_SIZE;
+					String text = rainhasModel.getFace(r, c);
+					if (text != null) {
+						if ((r + c) % 2 == 0) {
+							g.setColor(Color.white);
+							g.fillRect(x + 1, y + 1, CELL_SIZE - 3,
+									CELL_SIZE - 3);
+							g.setColor(Color.black);
+						} else {
+							g.setColor(Color.black);
+							g.fillRect(x + 1, y + 1, CELL_SIZE - 3,
+									CELL_SIZE - 3);
+							g.setColor(Color.white);
+						}
+						g.setFont(biggerFont);
+						g.drawString(text, x + 10, y + 30);
+					}
+				}
+			}
+		}
+	}
 
-	/* evento que cuida o botao iniciar
-         * responsavel por iniciar a execucao do
-         * algoritmo
-         * @param void
-         * @return void
+	/**
+	 * Responsável pelo botão iniciar e a execucao do algoritmo
+	 * 
+	 * @param void
+	 * @return void
 	 */
-	   public class Initial implements ActionListener {
+	public class Initial implements ActionListener {
 
-        public void actionPerformed(ActionEvent e) {
-            iniciar.setEnabled(false);
-            try {
-                if (entradaRainhas.getText().equals("")
-                        || group.getSelection() == null) {
-                    status.setText(" Entrada Inválida! ");
-                    return;
-                } else {
-                    nrainhas = Integer.parseInt(entradaRainhas.getText());
-                    programa.setRainhas(nrainhas);
-                }
-                //tempoInicio = System.currentTimeMillis();
-                if (paralelo.isSelected()) {
-                    programa.executa("Paralelo");
-                }
-                if (recursivo.isSelected()) {
-                    programa.executa("Recursivo");
-                }
-                if (sequencial.isSelected()) {
-                    programa.executa("Sequencial");
-                }
-                //tempoTotal = (System.currentTimeMillis() - tempoInicio) / 1000;// em
-                // segundos
-                //System.out.println("TEMPO TOTAL: " + tempoTotal);
-                iniciar.setEnabled(true);
-                resultado.setEnabled(true);
+		public void actionPerformed(ActionEvent e) {
+			iniciar.setEnabled(false);
+			try {
+				if (entradaRainhas.getText().equals("")
+						|| group.getSelection() == null) {
+					status.setText(" Entrada Inválida! ");
+					return;
+				} else {
+					nrainhas = Integer.parseInt(entradaRainhas.getText());
+					programa.setRainhas(nrainhas);
+				}
+				if (paralelo.isSelected()) {
+					programa.executa("Paralelo");
+				}
+				if (recursivo.isSelected()) {
+					programa.executa("Recursivo");
+				}
+				if (sequencial.isSelected()) {
+					programa.executa("Sequencial");
+				}
+				iniciar.setEnabled(true);
+				resultado.setEnabled(true);
 
-            } catch (Exception ex) {
-                System.err.println("Problema no evento do botao Start");
-            }
-        }
-    }
+			} catch (Exception ex) {
+				System.err.println("Problema no evento do botao Start");
+			}
+		}
+	}
 
 	/*
 	 * Botões de ação do jogo
 	 */
-    public class Resultado implements ActionListener {
+	public class Resultado implements ActionListener {
 
-        public void actionPerformed(ActionEvent e) {
-            res = new JFrame("Resultado");
-            if (entradaRainhas.getText().equals("")
-                    || group.getSelection() == null) {
-                status.setText(" Entrada Inválida! ");
-            } else {
-            }
-            try {
-                printaNoJList();
-            } catch (FileNotFoundException ex) {
-                System.err.println("Voce excluiu o arquivo"
-                        + programa.getNomeArq() + " com os resultados");
-            } catch (IOException ex) {
-                System.err.println("Voce excluiu o arquivo"
-                        + programa.getNomeArq() + " com os resultados");
-            }
-            res.pack();
-            res.setVisible(true);
-            res.repaint();
+		public void actionPerformed(ActionEvent e) {
+			res = new JFrame("Resultado");
+			if (entradaRainhas.getText().equals("")
+					|| group.getSelection() == null) {
+				status.setText(" Entrada Inválida! ");
+			} else {
+			}
+			try {
+				printaNoJList();
+			} catch (FileNotFoundException ex) {
+				System.err.println("Voce excluiu o arquivo"
+						+ programa.getNomeArq() + " com os resultados");
+			} catch (IOException ex) {
+				System.err.println("Voce excluiu o arquivo"
+						+ programa.getNomeArq() + " com os resultados");
+			}
+			res.pack();
+			res.setVisible(true);
+			res.repaint();
 
-        }
-    }
+		}
+	}
 
-    class Selecao implements ListSelectionListener {
+	class Selecao implements ListSelectionListener {
 
-        public void valueChanged(ListSelectionEvent lse) {
-            rainhasModel.reset();
-            solSelecionada = (String) listaSolucoes.getSelectedValue();
-            rainhasModel.reset(solSelecionada);
-            rainhasUI.repaint();
-        }
-    }
+		public void valueChanged(ListSelectionEvent lse) {
+			rainhasModel.reset();
+			solSelecionada = (String) listaSolucoes.getSelectedValue();
+			rainhasModel.reset(solSelecionada);
+			rainhasUI.repaint();
+		}
+	}
 
-	
-    /* Metodo que que abre o arquivo em que foram salvos
-     * as solucoes e então carrega essas solucoes para
-     * o JList que sera printado na interface
-     * @param void
-     * @return void
-     */
-    public void printaNoJList() throws FileNotFoundException, IOException {
+	/**
+	 * Carrega essas solucoes para JList da interface
+	 * 
+	 * @param void
+	 * @return void
+	 */
+	public void printaNoJList() throws FileNotFoundException, IOException {
 
-        FileReader file = new FileReader(programa.getNomeArq());
-        BufferedReader entrada = new BufferedReader(file);
-        String str = null;
-        modeloLista = new DefaultListModel();
+		FileReader file = new FileReader(programa.getNomeArq());
+		BufferedReader entrada = new BufferedReader(file);
+		String str = null;
+		modeloLista = new DefaultListModel();
 
-        while ((str = entrada.readLine()) != null) {
-            modeloLista.addElement(str);
-            //System.out.println("entrada " + str);
-        }
-        //in.close();
-        //file.close();
+		while ((str = entrada.readLine()) != null) {
+			modeloLista.addElement(str);
+		}
+		listaSolucoes = new JList(modeloLista);
+		listaSolucoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listaSolucoes.addListSelectionListener(new Selecao());
 
+		scrollLista = new JScrollPane(listaSolucoes);
 
-        listaSolucoes = new JList(modeloLista);
+		rainhasModel = new NrainhasTabuleiro(nrainhas);
+		rainhasUI = new GraphicsPanel(nrainhas);
 
-        listaSolucoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);// para
-        listaSolucoes.addListSelectionListener(new Selecao());
+		res.setLayout(new BorderLayout());
+		res.add(rainhasUI, BorderLayout.WEST);
+		res.add(scrollLista, BorderLayout.EAST);
 
-        scrollLista = new JScrollPane(listaSolucoes);
-
-        rainhasModel = new NrainhasTabuleiro(nrainhas);
-        rainhasUI = new GraphicsPanel(nrainhas);
-
-        res.setLayout(new BorderLayout());
-        res.add(rainhasUI, BorderLayout.WEST);
-        res.add(scrollLista, BorderLayout.EAST);
-
-    }
+	}
 
 }
