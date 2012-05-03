@@ -88,7 +88,6 @@ public final class NRainhasInterface extends JPanel {
 		controlPanel.add(status);
 
 		res = new JFrame("Resultados");
-		res.setResizable(false);
 
 		this.setLayout(new BorderLayout());
 		this.add(controlPanel);
@@ -196,6 +195,7 @@ public final class NRainhasInterface extends JPanel {
 			}
 			res.pack();
 			res.setVisible(true);
+			res.setResizable(false);
 			res.repaint();
 
 		}
